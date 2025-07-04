@@ -1,0 +1,21 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Buscar Post{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Buscar Post</h2>
+<form method="post" class="mb-4">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-outline-primary">Buscar</button>
+</form>
+
+{% if resultados %}
+    <h3>Resultados:</h3>
+    <ul class="list-group">
+        {% for post in resultados %}
+            <li class="list-group-item">{{ post.titulo }} — {{ post.fecha|date:"d/m/Y H:i" }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}
