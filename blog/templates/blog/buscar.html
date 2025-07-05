@@ -1,21 +1,25 @@
 {% extends 'blog/base.html' %}
 
-{% block title %}Buscar Post{% endblock %}
+{% block contenido %}
+    <h2>Buscar Post</h2>
+    <form method="get">
+        <label for="q">Buscar por título:</label>
+        <input type="text" id="q" name="q" value="{{ request.GET.q }}">
+        <button type="submit">Buscar</button>
+    </form>
 
-{% block content %}
-<h2 class="mb-4">Buscar Post</h2>
-<form method="post" class="mb-4">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-outline-primary">Buscar</button>
-</form>
-
-{% if resultados %}
-    <h3>Resultados:</h3>
-    <ul class="list-group">
+    {% if resultados %}
+        <h3>Resultados:</h3>
+        <ul>
         {% for post in resultados %}
-            <li class="list-group-item">{{ post.titulo }} — {{ post.fecha|date:"d/m/Y H:i" }}</li>
+            <li>
+                <a href="{% url 'detalle_post' post.id %}">
+                    {{ post.titulo }}
+                </a> — {{ post.fecha_creacion }}
+            </li>
         {% endfor %}
-    </ul>
-{% endif %}
+        </ul>
+    {% elif request.GET.q %}
+        <p>No se encontraron resultados para "{{ request.GET.q }}"</p>
+    {% endif %}
 {% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'blog/base.html' %}
+
+{% block contenido %}
+    <div class="detalle-post">
+        <h2>{{ post.titulo }}</h2>
+        <p><em>Publicado el {{ post.fecha_creacion }}</em></p>
+        <div class="contenido">
+            {{ post.contenido|linebreaks }}
+        </div>
+        <a href="{% url 'posts' %}">← Volver a la lista de posts</a>
+    </div>
+{% endblock %}

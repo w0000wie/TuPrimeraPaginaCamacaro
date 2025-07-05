@@ -1,38 +1,26 @@
 from django.shortcuts import render, redirect
 from .models import Post
 from .forms import AutorForm, CategoriaForm, PostForm, BusquedaPostForm
+from django.shortcuts import get_object_or_404
 
 def home(request):
     return render(request, 'blog/home.html')
 
-def crear_autor(request):
-    form = AutorForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect('home')
-    return render(request, 'blog/formulario.html', {'form': form, 'titulo': 'Nuevo Autor'})
+def autores(request):
+    return render(request, 'blog/autores.html')
 
-def crear_categoria(request):
-    form = CategoriaForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect('home')
-    return render(request, 'blog/formulario.html', {'form': form, 'titulo': 'Nueva Categoría'})
+def categorias(request):
+    return render(request, 'blog/categorias.html')
 
-def crear_post(request):
-    form = PostForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect('home')
-    return render(request, 'blog/formulario.html', {'form': form, 'titulo': 'Nuevo Post'})
+def lista_posts(request):
+    posts = Post.objects.all().order_by('-fecha_creacion')
+    return render(request, 'blog/lista_posts.html', {'posts': posts})
 
-def buscar_post(request):
-    resultados = []
-    if request.method == 'POST':
-        form = BusquedaPostForm(request.POST)
-        if form.is_valid():
-            titulo = form.cleaned_data['titulo']
-            resultados = Post.objects.filter(titulo__icontains=titulo)
-    else:
-        form = BusquedaPostForm()
-    return render(request, 'blog/buscar.html', {'form': form, 'resultados': resultados})
+def buscar_posts(request):
+    query = request.GET.get('q')
+    resultados = Post.objects.filter(titulo__icontains=query) if query else []
+    return render(request, 'blog/buscar.html', {'resultados': resultados})
+
+def detalle_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    return render(request, 'blog/detalle_post.html', {'post': post})
