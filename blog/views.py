@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import AutorForm, PostForm, CategoriaForm
 from .models import Post
+from .models import Autor, Categoria
 
 def home(request):
     return render(request, 'blog/home.html')
@@ -45,3 +46,11 @@ def buscar_post(request):
 def detalle_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     return render(request, 'blog/detalle_post.html', {'post': post})
+
+def listar_autores(request):
+    autores = Autor.objects.all()
+    return render(request, 'blog/listar_autores.html', {'autores': autores})
+
+def listar_categorias(request):
+    categorias = Categoria.objects.all()
+    return render(request, 'blog/listar_categorias.html', {'categorias': categorias})

@@ -1,0 +1,15 @@
+{% extends 'blog/base.html' %}
+
+{% block contenido %}
+<h2>Listado de Autores</h2>
+<ul class="list-group">
+    {% for autor in autores %}
+        <li class="list-group-item">
+            <strong>{{ autor.nombre }}</strong> — {{ autor.email }}
+            <p>{{ autor.bio }}</p>
+        </li>
+    {% empty %}
+        <li class="list-group-item">No hay autores registrados.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

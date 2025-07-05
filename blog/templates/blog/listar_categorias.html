@@ -1,0 +1,15 @@
+{% extends 'blog/base.html' %}
+
+{% block contenido %}
+<h2>Listado de Categorías</h2>
+<ul class="list-group">
+    {% for categoria in categorias %}
+        <li class="list-group-item">
+            <strong>{{ categoria.nombre }}</strong>
+            <p>{{ categoria.descripcion }}</p>
+        </li>
+    {% empty %}
+        <li class="list-group-item">No hay categorías registradas.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
