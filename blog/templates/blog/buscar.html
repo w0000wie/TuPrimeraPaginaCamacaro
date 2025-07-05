@@ -8,18 +8,20 @@
         <button type="submit">Buscar</button>
     </form>
 
-    {% if resultados %}
+    {% if query %}
         <h3>Resultados:</h3>
-        <ul>
-        {% for post in resultados %}
-            <li>
-                <a href="{% url 'detalle_post' post.id %}">
-                    {{ post.titulo }}
-                </a> — {{ post.fecha_creacion }}
-            </li>
-        {% endfor %}
-        </ul>
-    {% elif request.GET.q %}
-        <p>No se encontraron resultados para "{{ request.GET.q }}"</p>
+        {% if resultados %}
+            <ul>
+                {% for post in resultados %}
+                    <li>
+                        <a href="{% url 'detalle_post' post.id %}">
+                            {{ post.titulo }}
+                        </a> — {{ post.fecha_creacion }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No se encontraron resultados para "{{ query }}"</p>
+        {% endif %}
     {% endif %}
 {% endblock %}
